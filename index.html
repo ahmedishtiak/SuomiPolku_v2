@@ -610,6 +610,20 @@ html[data-theme="dark"] .turn.b .av{color:#06201E}
   letter-spacing:.04em;color:var(--pine);background:var(--pineSoft);border-radius:5px;padding:1px 5px;
   vertical-align:4px}
 
+/* ---------- site footer ---------- */
+.foot{display:flex;flex-wrap:wrap;align-items:center;justify-content:center;gap:8px;
+  padding:22px 20px calc(28px + env(safe-area-inset-bottom));border-top:1px solid var(--line2);
+  font-size:12.5px;color:var(--ink3);margin-top:auto}
+.foot button{font-size:12.5px;color:var(--pine2);font-weight:550}
+.foot button:hover{text-decoration:underline}
+.foot .dot{opacity:.5}
+@media (max-width:860px){.foot{padding-bottom:calc(92px + env(safe-area-inset-bottom))}}
+/* legal page rhythm */
+.legal-p{margin-bottom:16px}
+.legal-p:last-child{margin-bottom:0}
+.legal-p .f{font-weight:550;font-size:15.5px;line-height:1.6}
+.legal-p .e{font-size:15px;line-height:1.65;color:var(--ink2)}
+
 .sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;border:0}
 #boot{display:flex;align-items:center;justify-content:center;min-height:100vh;font-family:var(--fs);color:var(--ink3);font-size:14px}
 #fatal{display:none;padding:24px;font-family:var(--fm);font-size:13px;white-space:pre-wrap;color:#a33529}
@@ -10849,9 +10863,19 @@ function shell() {
         '<span class="tag pine" title="Putki / Streak">' + ic("flame") + " " + S.streak.n + "</span>" +
       "</header>" +
       '<main id="view" tabindex="-1"></main>' +
+      siteFooter() +
     "</div>" +
   "</div>" +
   '<nav class="tabbar">' + tabs + "</nav>";
+}
+function siteFooter() {
+  return '<footer class="foot">' +
+    "<span>© " + COPY_YEAR + " " + esc(COPY_HOLDER) + " · " + esc(APP_NAME) + "</span>" +
+    '<span class="dot">·</span>' +
+    '<button data-go="legal">' + esc(pick("Tekijänoikeus ja ehdot", "Copyright and terms")) + "</button>" +
+    '<span class="dot">·</span>' +
+    "<span>" + esc(pick("Epävirallinen opiskelumateriaali", "Unofficial study material")) + "</span>" +
+  "</footer>";
 }
 function logo() {
   return '<svg class="mark" viewBox="0 0 40 40" fill="none" aria-hidden="true">' +
@@ -11711,19 +11735,6 @@ function vSettings() {
         '<button class="btn" data-act="import">' + ic("refresh") + " " + esc(pick("Tuo tiedosto", "Import a file")) + "</button>" +
         '<button class="btn" data-act="reset" style="color:var(--berry)">' + esc(pick("Nollaa kaikki", "Reset everything")) + "</button>" +
       "</div></div>" +
-    '<div class="card pad mt2"><div class="eyebrow">' + esc(pick("Aineisto", "Where the content comes from")) + "</div>" +
-      '<div class="row mt" style="align-items:flex-start">' +
-        '<span class="tag" style="background:' + (DATA_SRC === "files" ? "var(--auroraSoft);color:var(--aurora)" : "var(--cloudSoft);color:var(--cloud)") + '">' +
-          esc(DATA_SRC === "files" ? pick("JSON-tiedostot", "JSON files") : pick("Sisäänrakennettu", "Built in")) + "</span>" +
-        '<div style="flex:1" class="small muted">' + esc(DATA_SRC === "files"
-          ? pick("Sanasto ja lauseet luetaan vierestä: vocabulary.json ja sentences.json. Muokkaa niitä, ja sovellus seuraa perässä.",
-                 "Vocabulary and sentences are being read from vocabulary.json and sentences.json next to this page. Edit those files and the app follows — no need to touch index.html.")
-          : pick("Sivu on avattu suoraan tiedostosta, joten selain ei saa lukea JSON-tiedostoja. Käytössä on index.html:ään koottu kopio. Julkaise sivu verkkoon, niin JSON-tiedostot otetaan käyttöön.",
-                 "This page was opened straight from disk, so the browser refuses to read the JSON files and the copy compiled into index.html is being used instead. Serve the folder over http — GitHub Pages counts — and the JSON files take over.")) + "</div>" +
-      "</div>" +
-      '<div class="small muted mt">' + VOCAB.length + " " + esc(pick("sanaa", "words")) + " · " +
-        SENT.length + " " + esc(pick("lausetta", "sentences")) + " · " +
-        PHRASE.length + " " + esc(pick("fraasia", "phrases")) + "</div></div>" +
     '<div class="card pad mt2"><div class="eyebrow">' + esc(pick("Tietoja", "About")) + "</div>" +
       '<div class="small muted mt">' + esc(pick(
         APP_NAME + " toimii ilman verkkoyhteyttä ja ilman tiliä. Mitään ei tallenneta palvelimelle.",
@@ -11731,7 +11742,76 @@ function vSettings() {
       '<div class="small muted mt">' + GRAMMAR.length + " " + esc(pick("lukua", "chapters")) + " · " +
         ALL_DRILLS.length + " " + esc(pick("harjoitusta", "drills")) + " · " +
         SITUATIONS.length + " " + esc(pick("dialogia", "dialogues")) + " · " +
-        NOM_TYPES.length + "+" + VERB_TYPES.length + " " + esc(pick("taivutustyyppiä", "paradigms")) + "</div></div>" +
+        NOM_TYPES.length + "+" + VERB_TYPES.length + " " + esc(pick("taivutustyyppiä", "paradigms")) + "</div>" +
+      '<button class="btn sm mt2" data-go="legal">' + ic("book") + " " +
+        esc(pick("Tekijänoikeus ja ehdot", "Copyright and terms")) + "</button></div>" +
+  "</div>";
+}
+
+/* ---------- COPYRIGHT AND TERMS ---------- */
+const COPY_YEAR = "2026";
+const COPY_HOLDER = "Ishtiak Ahmed";
+const COPY_MAIL = "ahmedishtiak293@gmail.com";
+
+function vLegal() {
+  const sec = (nf, ne, blocks) =>
+    '<section class="card pad mt2"><h2 class="h-fi" style="font-size:20px">' + esc(pick(nf, ne)) + "</h2>" +
+    '<div class="mt">' + blocks.map(([f, e]) => '<div class="legal-p">' + bi(f, e) + "</div>").join("") + "</div></section>";
+
+  return '<div class="wrap read">' +
+    '<div class="page-h"><div class="eyebrow">' + esc(pick("Oikeudelliset tiedot", "Legal")) + "</div>" +
+      "<h1>" + esc(pick("Tekijänoikeus ja ehdot", "Copyright and terms")) + "</h1>" +
+      '<div class="sub">' + esc(pick("Päivitetty 17. syyskuuta 2026.", "Last updated 17 September 2026.")) + "</div></div>" +
+
+    '<div class="box key"><div class="lbl">' + ic("check") + " " + esc(pick("Tekijänoikeus", "Copyright")) + "</div>" +
+      '<div class="f" style="font-size:16px">© ' + COPY_YEAR + " " + esc(COPY_HOLDER) + ". " +
+        esc(pick("Kaikki oikeudet pidätetään.", "All rights reserved.")) + "</div></div>" +
+
+    sec("Käyttöoikeus", "Permitted use", [
+      ["Tämä sivusto ja sen sisältö — tekstit, kieliopin selitykset, harjoitukset, sanastot, dialogit ja ohjelmakoodi — ovat tekijänoikeudella suojattuja.",
+       "This site and everything in it — the text, the grammar explanations, the exercises, the word lists, the dialogues and the code itself — are protected by copyright."],
+      ["Saat käyttää sivustoa vapaasti omaan opiskeluusi ja opetukseesi. Sisällön kopiointi, levittäminen, julkaiseminen uudelleen, muokkaaminen tai kaupallinen käyttö ilman kirjallista lupaa ei ole sallittua.",
+       "You are welcome to use the site for your own study and teaching, at no cost. Copying, redistributing, republishing, adapting or making commercial use of the content requires written permission from the copyright holder."]
+    ]) +
+
+    sec("Vastuuvapauslauseke", "Disclaimer", [
+      ["Sivusto on tarkoitettu opiskelumateriaaliksi. Sisältö on laadittu huolella ja tarkistettu, mutta virheitä voi silti olla eikä sisällön oikeellisuudesta anneta takuuta.",
+       "This site is study material. The content has been prepared with care and proof-read, but no guarantee is given that it is free of errors, and it is provided as it stands, without warranty of any kind."],
+      ["Sivusto ei korvaa opettajaa, oppikirjaa eikä virallista ohjeistusta. Tekijä ei vastaa vahingosta, joka aiheutuu sivuston käytöstä tai siihen luottamisesta.",
+       "It is not a substitute for a teacher, a textbook or official guidance, and the author accepts no liability for any loss arising from its use or from reliance on it."],
+      ["Sivustoa kehitetään vähitellen, ja sisältö voi muuttua.",
+       "The site is developed gradually, and the content may change over time."]
+    ]) +
+
+    sec("Riippumattomuus", "Independence and third parties", [
+      ["Sivusto on riippumaton yksityinen hanke. Se ei ole minkään viranomaisen, oppilaitoksen tai tutkinnon järjestäjän tuottama, hyväksymä tai tukema.",
+       "This is an independent, privately made project. It is not produced, approved, endorsed by or otherwise connected with any authority, educational institution or examination body."],
+      ["Yleinen kielitutkinto (YKI) on Opetushallituksen vastuulla ja Jyväskylän yliopiston toteuttama. Tämän sivuston harjoitukset ovat epävirallisia eivätkä ne ole virallisia koetehtäviä. Tarkista aina ajantasaiset tiedot kokeen järjestäjältä.",
+       "The National Certificate of Language Proficiency (YKI) is the responsibility of the Finnish National Agency for Education and is run by the University of Jyväskylä. The practice material here is unofficial and consists of exercises written for this site, not real examination papers. Always check current details with the examination organiser."],
+      ["Dialogeissa mainitaan todellisia organisaatioita, kuten Kela, HSL ja DVV, jotta tilanteet olisivat aitoja. Nimet ja tavaramerkit kuuluvat omistajilleen, eikä mainitseminen tarkoita yhteyttä tai hyväksyntää. Käytännöt, hinnat ja säännöt muuttuvat — tarkista ne virallisista lähteistä.",
+       "Real organisations such as Kela, HSL and DVV are named in the dialogues so that the situations ring true. Those names and marks belong to their owners, and mentioning them implies no connection or endorsement. Procedures, prices and rules change — check them against the official source before you rely on them."]
+    ]) +
+
+    sec("Yksityisyys", "Privacy", [
+      ["Sivusto ei kerää käyttäjätietoja. Tilejä ei ole, seurantaa ei ole, evästeitä ei aseteta, eikä palvelimelle lähetetä mitään.",
+       "The site collects nothing about you. There are no accounts, no analytics, no tracking and no cookies, and nothing you do is sent to a server."],
+      ["Edistymisesi tallentuu vain selaimesi omaan muistiin (localStorage). Se ei poistu koneeltasi. Jos tyhjennät selaimen tiedot, edistyminen katoaa — vie se tiedostoon asetuksista, jos haluat säilyttää sen.",
+       "Your progress is kept in your own browser's local storage. It never leaves your device. Clearing your browser data erases it, so export it from Settings if you want to keep it or move it to another device."],
+      ["Kirjasimet ladataan Google Fontsista, joten selaimesi ottaa yhteyden Googlen palvelimeen sivua avatessa. Sivusto toimii myös ilman tätä yhteyttä.",
+       "One thing does leave your browser: the page requests its typefaces from Google Fonts, so your browser contacts a Google server when the page opens. The site works without that connection, only with different typefaces."],
+      ["Ääntäminen tuotetaan selaimesi tai käyttöjärjestelmäsi puhesynteesillä. Sivusto ei lähetä tekstiä mihinkään, mutta jotkin selaimet käsittelevät puhesynteesin omalla palvelimellaan.",
+       "Spoken audio is produced by the speech synthesis built into your browser or operating system. This site sends the text nowhere, though some browsers process certain voices on their own servers."]
+    ]) +
+
+    sec("Yhteystiedot", "Contact", [
+      ["Palaute on tervetullutta: ehdotus, huomio jostakin oudolta näyttävästä tai pelkkä viesti.",
+       "Feedback is welcome — a suggestion, a note about something that looks wrong, or simply a message."],
+      ["Kysymykset ja lupapyynnöt samaan osoitteeseen: " + COPY_MAIL,
+       "Questions and permission requests go to the same address: " + COPY_MAIL]
+    ]) +
+
+    '<div class="row mt2"><button class="btn" data-go="settings">' + ic("left") + " " +
+      esc(pick("Asetukset", "Settings")) + "</button></div>" +
   "</div>";
 }
 
@@ -12815,6 +12895,7 @@ function view() {
       return vYki();
     case "progress": return vProgress();
     case "settings": return vSettings();
+    case "legal": return vLegal();
     default: return notFound();
   }
 }
