@@ -4,9 +4,9 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="theme-color" content="#F5F3ED">
-<meta name="description" content="SuomiPolku - an in-depth bilingual Finnish course: grammar, vocabulary, sentences, spoken Finnish, real-life dialogues, an inflection table, a number lab and exam practice. Runs offline.">
+<meta name="description" content="SuomiPolku v2 - an in-depth bilingual Finnish course: grammar, vocabulary, sentences, spoken Finnish, real-life dialogues, an inflection table, a number lab and exam practice. Runs offline.">
 <meta name="color-scheme" content="light dark">
-<title>SuomiPolku - Opi suomea</title>
+<title>SuomiPolku v2 - Opi suomea</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600;700&display=swap" rel="stylesheet">
@@ -597,17 +597,30 @@ html[data-theme="dark"] .turn.b .av{color:#06201E}
 .turn.b .lang{background:color-mix(in srgb,var(--pine) 14%,transparent)}
 .hook .lang{vertical-align:5px}
 
+/* ---------- verb-type badge ---------- */
+.tag.vt{gap:0;font-family:var(--fm);font-weight:700;letter-spacing:.02em;
+  background:var(--lakeSoft);color:var(--lake);cursor:pointer;transition:filter .13s}
+.tag.vt:hover{filter:brightness(.94)}
+.tag.vt.irr{background:var(--berrySoft);color:var(--berry)}
+.tag.vt i{font-style:normal;font-weight:800;margin-left:1px;line-height:1}
+.tag.vt.big{font-size:13px;padding:4px 11px}
+.vcorner{position:absolute;top:10px;right:10px}
+
+.brand-t .ver{display:inline-block;margin-left:6px;font-family:var(--fs);font-size:10px;font-weight:800;
+  letter-spacing:.04em;color:var(--pine);background:var(--pineSoft);border-radius:5px;padding:1px 5px;
+  vertical-align:4px}
+
 .sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;border:0}
 #boot{display:flex;align-items:center;justify-content:center;min-height:100vh;font-family:var(--fs);color:var(--ink3);font-size:14px}
 #fatal{display:none;padding:24px;font-family:var(--fm);font-size:13px;white-space:pre-wrap;color:#a33529}
 </style>
 </head>
 <body>
-<div id="app-root"><div id="boot">Ladataan SuomiPolkua...</div></div>
+<div id="app-root"><div id="boot">Ladataan SuomiPolku v2:ta...</div></div>
 <pre id="fatal"></pre>
 <script>
 window.onerror=function(m,s,l,c,e){var f=document.getElementById('fatal');
- if(f){f.style.display='block';f.textContent='SuomiPolku error:\n'+m+'\nline '+l+':'+c+'\n'+((e&&e.stack)||'');}
+ if(f){f.style.display='block';f.textContent='SuomiPolku v2 error:\n'+m+'\nline '+l+':'+c+'\n'+((e&&e.stack)||'');}
  var b=document.getElementById('boot'); if(b)b.remove(); };
 </script>
 <script>
@@ -1498,7 +1511,7 @@ const NOM_TYPES = [{
 }];
 
 const VERB_TYPES = [{
-  id: "puhua", n: 1, model: "puhua", en: "to speak",
+  id: "puhua", n: 1, vt: 1, irr: false, model: "puhua", en: "to speak",
   tf: "Tyyppi 1 — kaksi vokaalia lopussa",
   te: "Type 1 — the infinitive ends in a vowel plus -a/-ä",
   rf: "Poista -a/-ä. Vartalo on valmis. Astevaihtelu on suoraa: vahva aste infinitiivissä ja kolmannessa persoonassa, heikko muualla.",
@@ -1526,7 +1539,7 @@ const VERB_TYPES = [{
     e: "The past tense is where this type gets its reputation. o, u, y and ö simply take the -i- (sanoi, puhui). An -e- or an -i- disappears into it (luki, oppi). An -a- either becomes -o- (antoi, maksoi, if the first syllable holds a, e or i) or drops (osti, muisti). The conditional is much kinder: the -a- just stays, giving antaisin, ostaisin."
   }
 }, {
-  id: "syoda", n: 2, model: "syödä", en: "to eat",
+  id: "syoda", n: 2, vt: 2, irr: false, model: "syödä", en: "to eat",
   tf: "Tyyppi 2 — -da / -dä",
   te: "Type 2 — the infinitive ends in -da / -dä",
   rf: "Poista -da/-dä. Vartalo päättyy pitkään vokaaliin tai diftongiin, joten hän-muodossa ei pidennetä mitään.",
@@ -1554,7 +1567,7 @@ const VERB_TYPES = [{
     e: "The lengthening rule of the third person does not apply here, because there is nothing left to lengthen. It is hän syö, hän juo, hän saa. Note also that voida and uida have a short -i- stem and therefore look identical in the present and the past: voin is both I can and I could."
   }
 }, {
-  id: "tulla", n: 3, model: "tulla", en: "to come",
+  id: "tulla", n: 3, vt: 3, irr: false, model: "tulla", en: "to come",
   tf: "Tyyppi 3 — -la, -lä, -na, -nä, -ra, -rä, -sta, -stä",
   te: "Type 3 — the infinitive ends in a consonant plus -a/-ä",
   rf: "Poista kaksi viimeistä kirjainta ja lisää -e-: tulla – tule-. NUT-partisiipissa n sulautuu edelliseen konsonanttiin: tullut, mennyt, noussut.",
@@ -1582,7 +1595,7 @@ const VERB_TYPES = [{
     e: "The two stems live side by side and you must pick the right one. Vowel stem tule- for the present, the past, the conditional and the singular imperative; consonant stem tul- for the participle tullut, the plural imperative tulkaa, the negative plural älkää tulko and the whole passive tullaan, tultiin, tultu."
   }
 }, {
-  id: "haluta", n: 4, model: "haluta", en: "to want",
+  id: "haluta", n: 4, vt: 4, irr: false, model: "haluta", en: "to want",
   tf: "Tyyppi 4 — -ata, -ätä, -ota, -ötä, -uta, -ytä",
   te: "Type 4 — -ta/-tä after a, ä, o, ö, u or y",
   rf: "Poista -ta/-tä ja lisää -a-/-ä-: haluta – halua-. Imperfektin tunnus on -si-: halusin. Astevaihtelu on käänteinen.",
@@ -1610,7 +1623,7 @@ const VERB_TYPES = [{
     e: "The participle doubles the n because the stem lost its t: halunnut, halunneet; tavannut, tavanneet; pelannut, pelanneet. Do not confuse the past halusin with the conditional haluaisin — the -si- past belongs to this type alone, and the conditional keeps the full stem."
   }
 }, {
-  id: "tarvita", n: 5, model: "tarvita", en: "to need",
+  id: "tarvita", n: 5, vt: 5, irr: false, model: "tarvita", en: "to need",
   tf: "Tyyppi 5 — -ita / -itä",
   te: "Type 5 — the infinitive ends in -ita / -itä",
   rf: "Poista -ta/-tä ja lisää -tse-: tarvita – tarvitse-. Tyypissä ei ole astevaihtelua.",
@@ -1638,7 +1651,7 @@ const VERB_TYPES = [{
     e: "The -tse- belongs to the vowel stem only. The participle drops it and doubles the n (tarvinnut, valinnut, tarvinneet), and the whole passive is built on the short stem: tarvitaan, tarvittiin, tarvittu. The plural imperative does the same: tarvitkaa, valitkaa."
   }
 }, {
-  id: "vanheta", n: 6, model: "vanheta", en: "to grow old",
+  id: "vanheta", n: 6, vt: 6, irr: false, model: "vanheta", en: "to grow old",
   tf: "Tyyppi 6 — -eta / -etä",
   te: "Type 6 — the infinitive ends in -eta / -etä",
   rf: "Poista -ta/-tä ja lisää -ne-: vanheta – vanhene-. Astevaihtelu on käänteinen: paeta – pakenen.",
@@ -1666,7 +1679,7 @@ const VERB_TYPES = [{
     e: "The one-second test for the three -ta types. Look at the vowel in front of the ending: haluta has a, so type 4 and the stem halua-; tarvita has i, so type 5 and the stem tarvitse-; vanheta has e, so type 6 and the stem vanhene-. Most type 6 verbs are intransitive and describe a change of state, so they rarely take an object."
   }
 }, {
-  id: "olla", n: 7, model: "olla", en: "to be",
+  id: "olla", n: 7, vt: 3, irr: true, model: "olla", en: "to be",
   tf: "Epäsäännöllinen — muodollisesti tyyppi 3",
   te: "Irregular — formally a type 3 verb",
   rf: "Vartalo on ole-, aivan kuten tyypissä 3. Epäsäännöllisiä ovat vain hän-muoto on ja he-muoto ovat.",
@@ -1694,7 +1707,7 @@ const VERB_TYPES = [{
     e: "The negative is regular, so it is ei ole and eivät ole, not ei on. The verbs in the list are ordinary type 3 verbs that show you what olla would look like if it behaved: tulee, menee. Note that olkaa hyvä is the plural imperative and the single most useful phrase in the paradigm."
   }
 }, {
-  id: "tehda", n: 8, model: "tehdä", en: "to do, to make",
+  id: "tehda", n: 8, vt: 2, irr: true, model: "tehdä", en: "to do, to make",
   tf: "Epäsäännöllinen — kaksi vartaloa, tee- ja teke-",
   te: "Irregular — two stems, tee- and teke-",
   rf: "Näyttää tyypin 2 verbiltä, mutta kolmannessa persoonassa vartalo on teke-. Muualla k katoaa: teen, teet, teemme.",
@@ -1722,7 +1735,7 @@ const VERB_TYPES = [{
     e: "Only tehdä and nähdä have the hidden k-stem; syödä, juoda and saada are on the list purely to show the regular type 2 pattern they break. The commonest error is teen for hän, which must be tekee, and en teen for en tee."
   }
 }, {
-  id: "nahda", n: 9, model: "nähdä", en: "to see",
+  id: "nahda", n: 9, vt: 2, irr: true, model: "nähdä", en: "to see",
   tf: "Epäsäännöllinen — kaksi vartaloa, näe- ja näke-",
   te: "Irregular — two stems, näe- and näke-",
   rf: "Sama kaava kuin verbissä tehdä: näen, näet, mutta hän näkee. NUT-partisiippi ja passiivi rakentuvat h:lle: nähnyt, nähdään.",
@@ -1750,7 +1763,7 @@ const VERB_TYPES = [{
     e: "The past mixes the two stems inside one paradigm: näin, näit, näimme, näitte have no k, but näki and näkivät do. Watch the collision with the adverb näin (like this) and with the passive nähdään, which doubles as the everyday goodbye: nähdään huomenna."
   }
 }, {
-  id: "kayda", n: 10, model: "käydä", en: "to visit, to go (and come back)",
+  id: "kayda", n: 10, vt: 2, irr: true, model: "käydä", en: "to visit, to go (and come back)",
   tf: "Epäsäännöllinen — tyypin 2 verbi, jonka imperfekti on kävi-",
   te: "Irregular — a type 2 verb whose past stem is kävi-",
   rf: "Preesens on täysin säännöllinen tyyppi 2: käyn, käyt, käy. Imperfektissä ja konditionaalissa vartalo on käv-: kävin, kävisin.",
@@ -1778,7 +1791,7 @@ const VERB_TYPES = [{
     e: "The construction matters more than the forms. käydä means going somewhere and coming back, and it takes the -massa/-mässä infinitive or the inessive of a place: käyn uimassa, käyn kaupassa, kävin lääkärissä. Käyn uimaan is wrong; that is what mennä takes."
   }
 }, {
-  id: "juosta", n: 11, model: "juosta", en: "to run",
+  id: "juosta", n: 11, vt: 3, irr: true, model: "juosta", en: "to run",
   tf: "Tyyppi 3 — mutta vartalo on juokse-",
   te: "Type 3 — but the stem is juokse-, not juose-",
   rf: "Infinitiivi on tyypin 3 mukainen -sta, mutta vartaloon ilmestyy k: juosta – juokse-. Muuten taivutus on täysin säännöllinen.",
@@ -10034,6 +10047,7 @@ const $$ = (s, r) => Array.from((r || document).querySelectorAll(s));
 const esc = s => String(s == null ? "" : s)
   .replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;")
   .replace(/"/g, "&quot;").replace(/'/g, "&#39;");
+const APP_NAME = "SuomiPolku v2";
 const clamp = (n, a, b) => Math.min(b, Math.max(a, n));
 const today = () => new Date().toISOString().slice(0, 10);
 const dayNum = d => Math.floor(new Date((d || today()) + "T00:00:00Z").getTime() / 864e5);
@@ -10447,9 +10461,10 @@ function search(qRaw) {
   });
   VOCAB.forEach(v => {
     const a = fold(v.fi), b = fold(v.en);
-    if (a === q) add("Sanasto · Vocabulary", v.fi, v.en, "vocab?w=" + encodeURIComponent(v.fi), -2);
-    else if (a.startsWith(q)) add("Sanasto · Vocabulary", v.fi, v.en, "vocab?w=" + encodeURIComponent(v.fi), 0);
-    else if (b.includes(q) || a.includes(q)) add("Sanasto · Vocabulary", v.fi, v.en, "vocab?w=" + encodeURIComponent(v.fi), 3);
+    const sub = v.en + (v.t === "verb" ? " · " + vtLabel(v.fi) : "");
+    if (a === q) add("Sanasto · Vocabulary", v.fi, sub, "vocab?w=" + encodeURIComponent(v.fi), -2);
+    else if (a.startsWith(q)) add("Sanasto · Vocabulary", v.fi, sub, "vocab?w=" + encodeURIComponent(v.fi), 0);
+    else if (b.includes(q) || a.includes(q)) add("Sanasto · Vocabulary", v.fi, sub, "vocab?w=" + encodeURIComponent(v.fi), 3);
   });
   PHRASE.forEach(p => {
     if (fold(p.fi).includes(q) || fold(p.en).includes(q))
@@ -10813,7 +10828,8 @@ function shell() {
   '<div class="app">' +
     '<aside class="rail" id="rail">' +
       '<div class="rail-brand">' + logo() +
-        '<div><div class="brand-t">SuomiPolku</div><div class="brand-s">Opi suomea</div></div></div>' +
+        '<div><div class="brand-t">SuomiPolku<span class="ver">v2</span></div>' +
+        '<div class="brand-s">Opi suomea</div></div></div>' +
       '<nav class="rail-nav">' + nav + "</nav>" +
       '<div class="rail-foot">' +
         '<button class="icb" data-act="theme" title="Vaihda teema / Toggle theme">' +
@@ -11273,6 +11289,7 @@ function vVocab() {
   const cards = deck.slice(0, 400).map(v => {
     const k = kVocab(v), m = maturity(k);
     return '<button class="vc" data-act="vword" data-w="' + esc(v.fi) + '">' +
+      (v.t === "verb" ? '<span class="vcorner">' + vtag(v.fi) + "</span>" : "") +
       '<div class="f">' + esc(v.fi) + "</div>" +
       '<div class="e">' + esc(v.en) + "</div>" +
       '<div class="x">' + esc(v.exf) + "</div>" +
@@ -11318,9 +11335,13 @@ function wordCard(v) {
       '<button class="icb' + (S.starred[k] ? " on" : "") + '" data-act="star" data-k="' + esc(k) + '" title="Tähti / Star">' + ic("star") + "</button>" +
     "</div>" +
     '<div class="row wrap2 mt" style="gap:8px">' +
+      (v.t === "verb" ? vtag(v.fi, true) : "") +
       '<span class="tag">' + esc(pick(VFIELD[v.t][0], VFIELD[v.t][1])) + "</span>" +
       (c ? '<span class="tag">' + esc(pick("Väli", "Interval")) + " " + c.iv + " " + esc(pick("pv", "d")) + "</span>" : "") +
     "</div>" +
+    (v.t === "verb" ? '<div class="small muted mt">' + esc(vtLabel(v.fi)) + " — " +
+      '<a href="#/inflect?w=' + encodeURIComponent(v.fi) + '">' +
+      esc(pick("katso taivutus", "see the conjugation")) + "</a></div>" : "") +
     '<div class="exs mt2"><div class="ex-i"><div class="f">' + lang("FI") + esc(v.exf) + spk(v.exf, "") + "</div>" +
       '<div class="e sep">' + lang("EN") + esc(v.exe) + "</div></div></div>" +
     '<div class="row wrap2 mt" style="gap:7px">' + rel.map(r =>
@@ -11705,8 +11726,8 @@ function vSettings() {
         PHRASE.length + " " + esc(pick("fraasia", "phrases")) + "</div></div>" +
     '<div class="card pad mt2"><div class="eyebrow">' + esc(pick("Tietoja", "About")) + "</div>" +
       '<div class="small muted mt">' + esc(pick(
-        "SuomiPolku toimii ilman verkkoyhteyttä ja ilman tiliä. Mitään ei tallenneta palvelimelle.",
-        "SuomiPolku runs offline and needs no account. Nothing is stored on a server.")) + "</div>" +
+        APP_NAME + " toimii ilman verkkoyhteyttä ja ilman tiliä. Mitään ei tallenneta palvelimelle.",
+        APP_NAME + " runs offline and needs no account. Nothing is stored on a server.")) + "</div>" +
       '<div class="small muted mt">' + GRAMMAR.length + " " + esc(pick("lukua", "chapters")) + " · " +
         ALL_DRILLS.length + " " + esc(pick("harjoitusta", "drills")) + " · " +
         SITUATIONS.length + " " + esc(pick("dialogia", "dialogues")) + " · " +
@@ -11810,19 +11831,55 @@ function guessType(word) {
   for (const [re, id] of GUESS) if (re.test(word)) return NOM_TYPES.find(t => t.id === id);
   return NOM_TYPES[0];
 }
-function guessVerbType(word) {
-  const v = SEED_V[word];
-  if (v) { const t = VERB_TYPES.find(x => x.id === word) ||
-    VERB_TYPES.find(x => String(x.n) === String(v.ty)) ||
-    VERB_TYPES.find(x => x.model === word); if (t) return t; }
-  if (VERB_TYPES.some(t => t.model === word)) return VERB_TYPES.find(t => t.model === word);
-  if (/(la|lä|na|nä|ra|rä|sta|stä)$/.test(word)) return VERB_TYPES.find(t => t.id === "tulla");
-  if (/(ita|itä)$/.test(word)) return VERB_TYPES.find(t => t.id === "tarvita");
-  if (/(eta|etä)$/.test(word)) return VERB_TYPES.find(t => t.id === "vanheta");
-  if (/(ata|ätä|ota|ötä|uta|ytä)$/.test(word)) return VERB_TYPES.find(t => t.id === "haluta");
-  if (/(da|dä)$/.test(word)) return VERB_TYPES.find(t => t.id === "syoda");
-  return VERB_TYPES[0];
+/* Every verb has a type, whether or not we hold a paradigm for it:
+   a model word answers directly, a reference verb answers from its recorded
+   type, and anything else is read off the infinitive ending. */
+function verbTypeOf(word) {
+  const w = String(word || "").toLowerCase().trim();
+  if (!w) return null;
+  const direct = VERB_TYPES.find(t => t.model === w);
+  if (direct) return direct;
+  const seed = SEED_V[w];
+  if (seed) {
+    if (seed.ty === "irr") {
+      const t = VERB_TYPES.find(x => x.model === w);
+      if (t) return t;
+    }
+    const n = parseInt(seed.ty, 10);
+    const t = VERB_TYPES.find(x => x.vt === n && !x.irr);
+    if (t) return t;
+  }
+  let n;
+  if (/(ita|itä)$/.test(w)) n = 5;
+  else if (/(eta|etä)$/.test(w)) n = 6;
+  else if (/(sta|stä)$/.test(w)) n = 3;
+  else if (/[aouyäö]t[aä]$/.test(w)) n = 4;
+  else if (/(la|lä|na|nä|ra|rä)$/.test(w)) n = 3;
+  else if (/(da|dä)$/.test(w)) n = 2;
+  else n = 1;
+  return VERB_TYPES.find(x => x.vt === n && !x.irr) || VERB_TYPES[0];
 }
+const guessVerbType = verbTypeOf;
+
+/* the compact badge — V1 … V6, tinted differently when the verb is irregular */
+function vtag(word, big) {
+  const t = verbTypeOf(word);
+  if (!t) return "";
+  const label = "V" + t.vt;
+  const title = pick("Verbityyppi " + t.vt, "Verb type " + t.vt) +
+    (t.irr ? " · " + pick("epäsäännöllinen", "irregular") : "");
+  /* a span, not a button: these sit inside the vocabulary cards, which are
+     themselves buttons, and a nested button is dropped by the parser */
+  return '<span class="tag vt' + (t.irr ? " irr" : "") + (big ? " big" : "") +
+    '" role="link" data-go="inflect?w=' + encodeURIComponent(word) + '" title="' + esc(title) + '">' +
+    label + (t.irr ? "<i>*</i>" : "") + "</span>";
+}
+function vtLabel(word) {
+  const t = verbTypeOf(word);
+  if (!t) return "";
+  return pick("Verbityyppi ", "Verb type ") + t.vt + (t.irr ? " · " + pick("epäsäännöllinen", "irregular") : "");
+}
+
 function isVerbWord(w) {
   if (SEED_V[w]) return true;
   if (SEED_N[w]) return false;
@@ -11883,7 +11940,7 @@ function typeBrowser(tab) {
   return '<div class="filters mt2">' + segs + "</div>" +
     '<div class="rows">' + list.map(t =>
       '<button class="rw" data-go="inflect?t=' + t.id + '">' +
-        '<span class="n">' + t.n + "</span>" +
+        '<span class="n">' + (tab === "verb" ? "V" + t.vt + (t.irr ? "*" : "") : t.n) + "</span>" +
         '<span class="t"><b>' + esc(t.model) +
           ' <span style="font-weight:400;color:var(--ink3)">· ' + esc(t.en) + "</span></b>" +
           "<span>" + esc(pick(t.tf, t.te)) + (t.grad ? " · " + esc(t.gradf || "astevaihtelu") : "") + "</span></span>" +
@@ -11945,9 +12002,11 @@ function nomTypeCard(t, word, verified) {
 
 function verbTypeCard(t, word) {
   const showWord = word && word !== t.model;
-  const head = showWord ? banner("tip", pick("Mallisana", "The model"),
-    "Verbi " + word + " on tyyppiä " + t.model + ". Alla on mallin taivutus — sinun verbisi taipuu samoin, vartalo vaihtuu.",
-    "'" + word + "' belongs to the " + t.model + " type. The conjugation below is the model's own; yours follows it, with your stem in place of " + t.stem + "-.") : "";
+  const head = showWord ? banner("tip", vtLabel(word),
+    "Verbi " + word + " on verbityyppiä " + t.vt + (t.irr ? " (epäsäännöllinen)" : "") +
+      ", mallisana " + t.model + ". Alla on mallin taivutus — sinun verbisi taipuu samoin, vartalo vaihtuu.",
+    "'" + word + "' is a type " + t.vt + (t.irr ? " but irregular" : "") + " verb, modelled on " + t.model +
+      ". The conjugation below is the model's own; yours follows it, with your stem in place of " + t.stem + "-.") : "";
 
   const tenseTable = TENSES.map(([k, nf, ne, link]) =>
     "<tr><td><b>" + esc(pick(nf, ne)) + "</b>" +
@@ -11968,6 +12027,7 @@ function verbTypeCard(t, word) {
         '<div style="flex:1"><div class="h-fi" style="font-size:30px">' + esc(t.model) + "</div>" +
         '<div class="muted">' + esc(t.en) + "</div></div>" + spk(t.model, "") + "</div>" +
       '<div class="row wrap2 mt" style="gap:8px">' +
+        vtag(t.model, true) +
         '<span class="tag pine">' + esc(pick(t.tf, t.te)) + "</span>" +
         '<span class="tag">' + esc(pick("Vartalo", "Stem")) + ": " + esc(t.stem) + "-</span>" +
         (t.grad ? '<span class="tag" style="background:var(--cloudSoft);color:var(--cloud)">' +
@@ -12346,7 +12406,8 @@ function qVocabType(v) {
   return {
     key: kVocab(v), kind: "type",
     prompt: v.en, sub: pick("Kirjoita suomeksi", "Type it in Finnish"),
-    answers: [v.fi], xf: v.exf, xe: v.exe, tail: v.fi + " · " + v.en, speakAfter: v.fi
+    answers: [v.fi], xf: v.exf, xe: v.exe, speakAfter: v.fi,
+    tail: v.fi + " · " + v.en + (v.t === "verb" ? " · " + vtLabel(v.fi) : "")
   };
 }
 function qVocabListen(v, pool) {
@@ -12361,7 +12422,7 @@ function qVocabListen(v, pool) {
 }
 function qVocabFlip(v) {
   return { key: kVocab(v), kind: "flip", front: v.fi, back: v.en, exf: v.exf, exe: v.exe,
-    lvl: v.lvl, speak: v.fi };
+    note: v.t === "verb" ? vtLabel(v.fi) : "", speak: v.fi };
 }
 function qSentOrder(s) {
   return { key: kSent(s), kind: "order",
@@ -12604,6 +12665,7 @@ function runFlip(q) {
         '<div class="face"><div class="w">' + esc(q.front) + "</div>" +
           '<div class="sub">' + esc(pick("Napauta kääntääksesi", "Tap to flip")) + " · <kbd>Space</kbd></div></div>" +
         '<div class="face bk"><div class="w" style="font-size:26px">' + esc(q.back) + "</div>" +
+          (q.note ? '<div class="tag vt" style="margin-top:8px">' + esc(q.note) + "</div>" : "") +
           (q.exf ? '<div class="exf">' + esc(q.exf) + "</div>" : "") +
           (q.exe ? '<div class="exe">' + esc(q.exe) + "</div>" : "") + "</div>" +
       "</div></div>" +
@@ -13032,7 +13094,7 @@ function exportData() {
   const blob = new Blob([JSON.stringify(S, null, 1)], { type: "application/json" });
   const a = document.createElement("a");
   a.href = URL.createObjectURL(blob);
-  a.download = "suomipolku-" + today() + ".json";
+  a.download = "suomipolku-v2-" + today() + ".json";
   document.body.appendChild(a); a.click(); a.remove();
   setTimeout(() => URL.revokeObjectURL(a.href), 4000);
   toast(pick("Viety.", "Exported."));
